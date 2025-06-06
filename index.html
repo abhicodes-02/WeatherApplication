@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather App</title>
+  <link rel="stylesheet" href="index.css" />
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1163/1163624.png" />
+</head>
+<body>
+  <!-- Background video -->
+  <video autoplay muted loop class="background-clip">
+    <source src="Night Sky video background.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Glassmorphic container -->
+  <div class="weather-content">
+    <h1 class="heading">SHOW WEATHER</h1>
+
+    <!-- Search bar -->
+    <div class="searchbar">
+      <input type="text" id="city-input" placeholder="Enter city name" spellcheck="false" />
+      <button id="search-button">
+        <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="Search Icon" width="20" />
+      </button>
+    </div>
+
+    <!-- Error message -->
+    <div class="error" id="error-text"></div>
+
+    <!-- Current location button -->
+    <button class="ccl" id="get-location-button">Get Current City Location</button>
+
+    <!-- Weather display -->
+    <div class="weather" id="weather">
+      <img src="" class="weather-icon" id="weather-icon" alt="Weather Icon" />
+      <h1 class="temp" id="temp"><!-- temperature --></h1>
+      <h2 class="cityname" id="city-name"><!-- city name --></h2>
+
+      <div class="details">
+        <div class="col">
+          <img src="https://cdn-icons-png.flaticon.com/512/728/728093.png" alt="Humidity Icon" width="30"/>
+          <div>
+            <p id="humidity"><!-- humidity --></p>
+            <p>Humidity</p>
+          </div>
+        </div>
+        <div class="col">
+          <img src="https://cdn-icons-png.flaticon.com/512/2011/2011448.png" alt="Wind Icon" width="30"/>
+          <div>
+            <p id="wind"><!-- wind speed --></p>
+            <p>Wind Speed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>

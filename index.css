@@ -1,0 +1,235 @@
+/* Reset and global styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body, html {
+  height: 100%;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+/* Background video */
+.background-clip {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/* Container with glassmorphism */
+.weather-content {
+  position: relative;
+  max-width: 380px;
+  margin: 6% auto;
+  padding: 25px 20px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: slideDown 0.6s ease;
+}
+
+/* Heading styling */
+.heading {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* Search bar */
+.searchbar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.searchbar input {
+  padding: 10px;
+  width: 65%;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 10px 0 0 10px;
+  outline: none;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  backdrop-filter: blur(4px);
+  transition: 0.3s;
+}
+
+.searchbar input::placeholder {
+  color: #ddd;
+}
+
+.searchbar input:focus {
+  background: rgba(255,255,255,0.3);
+}
+
+.searchbar button {
+  background: #ffcd3c;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  padding: 0 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.searchbar button:hover {
+  background: #ffc107;
+}
+
+.searchbar img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Error Message */
+#error-text {
+  min-height: 20px;
+  color: #ff5555;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+/* Current location button */
+.ccl {
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease;
+}
+
+.ccl:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #00b3e6, #005fcc);
+}
+
+/* Weather card */
+.weather {
+  background: rgba(255,255,255,0.15);
+  border-radius: 15px;
+  padding: 18px;
+  animation: fadeIn 0.6s ease;
+}
+
+.weather-icon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.temp {
+  font-size: 2.6rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.cityname {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* Weather details */
+.details {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 10px;
+}
+
+.details .col {
+  display: flex;
+  align-items: center;
+}
+
+.details .col img {
+  width: 24px;
+  margin-right: 6px;
+}
+
+.details .col p:first-child {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .weather-content {
+    width: 92%;
+    padding: 18px 14px;
+  }
+
+  .heading {
+    font-size: 1.9rem;
+  }
+
+  .temp {
+    font-size: 2.2rem;
+  }
+
+  .cityname {
+    font-size: 1.3rem;
+  }
+
+  .searchbar input {
+    font-size: 0.9rem;
+  }
+
+  .ccl {
+    font-size: 0.85rem;
+    padding: 9px 18px;
+  }
+
+  .weather-icon {
+    width: 70px;
+    height: 70px;
+  }
+
+  .details .col img {
+    width: 22px;
+  }
+
+  .details .col p:first-child {
+    font-size: 0.95rem;
+  }
+}
