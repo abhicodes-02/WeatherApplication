@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, MapPin } from 'lucide-react';
+import { Search, Navigation } from 'lucide-react';
 
 export default function SearchBar({ onSearch, onLocation }) {
   const [city, setCity] = useState('');
@@ -13,32 +13,24 @@ export default function SearchBar({ onSearch, onLocation }) {
   };
 
   return (
-    <div className="w-full flex flex-col items-center gap-3 mb-6">
-      <form onSubmit={handleSearch} className="flex w-full">
+    <div className="w-full flex gap-2 mb-8">
+      <form onSubmit={handleSearch} className="flex-1 relative group">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 group-focus-within:text-white transition-colors" size={20} />
         <input
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          placeholder="Enter city name"
-          spellCheck="false"
-          className="flex-grow px-4 py-3 rounded-l-xl bg-white/20 backdrop-blur-sm outline-none text-white placeholder-gray-200 transition focus:bg-white/30"
+          placeholder="Search for a city..."
+          className="w-full bg-black/20 hover:bg-black/30 focus:bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl py-3.5 pl-12 pr-4 text-white placeholder-white/50 outline-none transition-all shadow-lg"
         />
-        <button
-          type="submit"
-          className="bg-yellow-400 hover:bg-yellow-500 transition px-4 rounded-r-xl text-gray-900 flex items-center justify-center"
-        >
-          <Search size={22} />
-        </button>
       </form>
-      
       <button
         onClick={onLocation}
-        className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:scale-105 transition-transform px-5 py-2.5 rounded-full text-sm font-semibold shadow-lg"
+        title="Use Current Location"
+        className="bg-black/20 hover:bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-3.5 text-white transition-all shadow-lg flex items-center justify-center active:scale-95"
       >
-        <MapPin size={18} />
-        Get Current Location
+        <Navigation size={20} className="text-white/90" />
       </button>
     </div>
   );
 }
-

@@ -1,39 +1,32 @@
 import React from 'react';
-import { Droplets, Wind } from 'lucide-react';
 import { getWeatherIcon } from '../utils/weatherIcons';
 
 export default function CurrentWeather({ current }) {
   if (!current) return null;
 
   return (
-    <div className="animate-fade-in bg-white/10 rounded-2xl p-6 mb-6 text-center shadow-lg border border-white/20 backdrop-blur-md">
-      <div className="flex justify-center mb-4">
-        {getWeatherIcon(current.weather[0].icon, 80)}
-      </div>
-      <h1 className="text-5xl font-bold mb-2">
-        {Math.round(current.main.temp)}°C
-      </h1>
-      <h2 className="text-2xl font-medium mb-1">{current.name}, {current.sys.country}</h2>
-      <p className="text-gray-200 capitalize mb-6">{current.weather[0].description}</p>
-
-      <div className="flex justify-around items-center border-t border-white/20 pt-4">
-        <div className="flex items-center gap-3">
-          <Droplets size={28} className="text-blue-300" />
-          <div className="text-left">
-            <p className="font-bold text-lg leading-tight">{current.main.humidity}%</p>
-            <p className="text-sm text-gray-200">Humidity</p>
-          </div>
+    <div className="flex flex-col items-center mb-8 text-white animate-fade-in">
+      <h2 className="text-3xl font-light tracking-wide mb-1 drop-shadow-md text-center">
+        {current.name}
+      </h2>
+      <p className="text-white/70 text-xs font-semibold tracking-widest uppercase mb-6">
+        {current.weather[0].description}
+      </p>
+      
+      <div className="flex items-center justify-center gap-6">
+        <div className="drop-shadow-2xl opacity-90 scale-110">
+          {getWeatherIcon(current.weather[0].icon, 100)}
         </div>
-        
-        <div className="flex items-center gap-3">
-          <Wind size={28} className="text-gray-300" />
-          <div className="text-left">
-            <p className="font-bold text-lg leading-tight">{(current.wind.speed * 3.6).toFixed(1)} km/h</p>
-            <p className="text-sm text-gray-200">Wind</p>
+        <div className="flex flex-col items-center">
+          <h1 className="text-7xl sm:text-8xl font-extralight tracking-tighter drop-shadow-lg leading-none -ml-2">
+            {Math.round(current.main.temp)}°
+          </h1>
+          <div className="flex gap-4 mt-2 text-white/70 text-sm font-medium">
+            <span>H: {Math.round(current.main.temp_max)}°</span>
+            <span>L: {Math.round(current.main.temp_min)}°</span>
           </div>
         </div>
       </div>
     </div>
   );
 }
-

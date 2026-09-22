@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SearchBar from './components/SearchBar';
 import CurrentWeather from './components/CurrentWeather';
+import WeatherDetails from './components/WeatherDetails';
 import HourlyForecast from './components/HourlyForecast';
 
 const API_KEY = "6af0bf46a6a3cc2582107eef6df3f951";
@@ -29,7 +30,6 @@ export default function App() {
         setForecast([]);
       } else {
         setCurrentWeather(dataCurrent);
-        // We only want the next 8 items (approx 24 hours since each item is 3 hours apart)
         setForecast(dataForecast.list.slice(0, 8));
       }
     } catch (err) {
@@ -64,46 +64,55 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex justify-center items-center p-4">
-      {/* Background Video */}
-      <video
-        autoPlay
-        muted
-        loop
-        className="fixed top-0 left-0 min-w-full min-h-full object-cover -z-10"
-      >
-        <source src={`${import.meta.env.BASE_URL}Night Sky video background.mp4`} type="video/mp4" />
-      </video>
+    <div className="relative min-h-screen w-full font-sans text-white bg-slate-950 selection:bg-white/30">
+      {/* Background Video with Overlay */}
+      <div className="fixed inset-0 w-full h-full -z-20">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover scale-105"
+        >
+          <source src={`${import.meta.env.BASE_URL}Night Sky video background.mp4`} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-[8px]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90"></div>
+      </div>
 
-      {/* Main Container */}
-      <div className="w-full max-w-md animate-slide-down">
-        <h1 className="text-4xl font-bold text-center mb-8 drop-shadow-lg">Weather App</h1>
+      {/* Main Content */}
+      <div className="w-full max-w-[460px] mx-auto p-5 sm:p-8 min-h-screen flex flex-col justify-center animate-slide-down">
         
-        <div className="bg-black/30 p-6 rounded-3xl backdrop-blur-xl border border-white/10 shadow-2xl">
-          <SearchBar onSearch={handleSearch} onLocation={handleLocation} />
-          
-          {error && (
-            <div className="text-red-400 text-center mb-4 font-semibold p-2 bg-red-400/10 rounded-lg">
-              {error}
-            </div>
-          )}
+        {!currentWeather && !loading && (
+           <div className="text-center mb-10 mt-6">
+              <h1 className="text-5xl font-extralight tracking-tight mb-4 drop-shadow-md">Atmosphere</h1>
+              <p className="text-white/60 font-medium tracking-wide text-sm">Find weather for any location</p>
+           </div>
+        )}
 
-          {loading && (
-            <div className="text-center text-white my-8">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white mb-2"></div>
-              <p>Fetching weather...</p>
-            </div>
-          )}
+        <SearchBar onSearch={handleSearch} onLocation={handleLocation} />
+        
+        {error && (
+          <div className="text-red-200 text-center mb-6 text-sm font-medium p-4 bg-red-500/20 border border-red-500/30 rounded-2xl backdrop-blur-md">
+            {error}
+          </div>
+        )}
 
-          {!loading && currentWeather && (
-            <>
-              <CurrentWeather current={currentWeather} />
-              <HourlyForecast forecast={forecast} />
-            </>
-          )}
-        </div>
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-20 text-white/70">
+            <div className="w-10 h-10 border-[3px] border-white/20 border-t-white/90 rounded-full animate-spin mb-5"></div>
+            <p className="text-xs font-bold uppercase tracking-widest">Gathering data...</p>
+          </div>
+        )}
+
+        {!loading && currentWeather && (
+          <div className="flex flex-col gap-1 w-full animate-fade-in">
+            <CurrentWeather current={currentWeather} />
+            <WeatherDetails current={currentWeather} />
+            <HourlyForecast forecast={forecast} />
+          </div>
+        )}
       </div>
     </div>
   );
 }
-
