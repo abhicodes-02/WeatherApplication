@@ -72,7 +72,7 @@ export default function App() {
         loop
         className="fixed top-0 left-0 min-w-full min-h-full object-cover -z-10"
       >
-        <source src="/Night Sky video background.mp4" type="video/mp4" />
+        <source src={`${import.meta.env.BASE_URL}Night Sky video background.mp4`} type="video/mp4" />
       </video>
 
       {/* Main Container */}
