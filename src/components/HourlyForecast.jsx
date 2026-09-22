@@ -12,7 +12,7 @@ export default function HourlyForecast({ forecast }) {
         <h3 className="text-white/60 text-sm font-semibold uppercase tracking-wider">24-Hour Forecast</h3>
       </div>
       
-      <div className="flex overflow-x-auto gap-4 lg:gap-6 pb-2 hide-scrollbar">
+      <div className="flex overflow-x-auto gap-4 lg:gap-6 pb-4 custom-scrollbar">
         {forecast.map((item, index) => {
           const date = new Date(item.dt * 1000);
           const hours = date.getHours();
