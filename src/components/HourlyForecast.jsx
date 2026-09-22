@@ -17,11 +17,15 @@ export default function HourlyForecast({ forecast }) {
           const date = new Date(item.dt * 1000);
           const hours = date.getHours();
           const displayHour = hours === 0 ? '12 AM' : hours < 12 ? `${hours} AM` : hours === 12 ? '12 PM' : `${hours - 12} PM`;
+          const displayDate = date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
           
           return (
             <div key={index} className="flex flex-col items-center min-w-[80px]">
-              <p className="text-white/70 text-sm font-medium mb-4">{index === 0 ? 'Now' : displayHour}</p>
-              <div className="drop-shadow-lg mb-4 opacity-90">
+              <div className="flex flex-col items-center mb-3">
+                <p className="text-white/40 text-[10px] font-bold uppercase tracking-wider mb-0.5 whitespace-nowrap">{index === 0 ? 'Today' : displayDate}</p>
+                <p className="text-white/80 text-sm font-semibold whitespace-nowrap">{index === 0 ? 'Now' : displayHour}</p>
+              </div>
+              <div className="drop-shadow-lg mb-3 opacity-90">
                 {getWeatherIcon(item.weather[0].icon, 45)}
               </div>
               <p className="text-white text-2xl font-semibold">{Math.round(item.main.temp)}°</p>
