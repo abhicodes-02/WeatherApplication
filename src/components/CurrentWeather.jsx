@@ -1,30 +1,37 @@
 import React from 'react';
 import { getWeatherIcon } from '../utils/weatherIcons';
+import { MapPin } from 'lucide-react';
 
 export default function CurrentWeather({ current }) {
   if (!current) return null;
+  const temp = Math.round(current.main.temp);
+  const desc = current.weather[0].description;
+  const high = Math.round(current.main.temp_max);
+  const low = Math.round(current.main.temp_min);
 
   return (
-    <div className="flex flex-col items-center mb-8 text-white animate-fade-in">
-      <h2 className="text-3xl font-light tracking-wide mb-1 drop-shadow-md text-center">
-        {current.name}
-      </h2>
-      <p className="text-white/70 text-xs font-semibold tracking-widest uppercase mb-6">
-        {current.weather[0].description}
-      </p>
+    <div className="bg-gradient-to-br from-white/10 to-white/5 border border-white/10 rounded-[2rem] p-8 lg:p-10 flex flex-col justify-between h-full min-h-[350px] shadow-2xl backdrop-blur-xl relative overflow-hidden">
       
-      <div className="flex items-center justify-center gap-6">
-        <div className="drop-shadow-2xl opacity-90 scale-110">
-          {getWeatherIcon(current.weather[0].icon, 100)}
+      <div className="flex justify-between items-start relative z-10">
+        <div>
+          <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight text-white flex items-center gap-2 mb-2">
+            <MapPin size={24} className="text-white/70" />
+            {current.name}
+          </h2>
+          <p className="text-white/60 text-lg capitalize font-medium">{desc}</p>
         </div>
-        <div className="flex flex-col items-center">
-          <h1 className="text-7xl sm:text-8xl font-extralight tracking-tighter drop-shadow-lg leading-none -ml-2">
-            {Math.round(current.main.temp)}°
-          </h1>
-          <div className="flex gap-4 mt-2 text-white/70 text-sm font-medium">
-            <span>H: {Math.round(current.main.temp_max)}°</span>
-            <span>L: {Math.round(current.main.temp_min)}°</span>
-          </div>
+        <div className="drop-shadow-2xl opacity-90">
+          {getWeatherIcon(current.weather[0].icon, 80)}
+        </div>
+      </div>
+
+      <div className="mt-12 relative z-10">
+        <h1 className="text-[7rem] lg:text-[8rem] font-light tracking-tighter text-white leading-none -ml-3">
+          {temp}°
+        </h1>
+        <div className="flex gap-4 text-white/70 mt-4 text-lg font-medium">
+          <span>High: {high}°</span>
+          <span>Low: {low}°</span>
         </div>
       </div>
     </div>

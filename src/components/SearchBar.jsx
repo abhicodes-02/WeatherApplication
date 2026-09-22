@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Navigation } from 'lucide-react';
+import { Search, MapPin } from 'lucide-react';
 
 export default function SearchBar({ onSearch, onLocation }) {
   const [city, setCity] = useState('');
@@ -13,23 +13,25 @@ export default function SearchBar({ onSearch, onLocation }) {
   };
 
   return (
-    <div className="w-full flex gap-2 mb-8">
-      <form onSubmit={handleSearch} className="flex-1 relative group">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 group-focus-within:text-white transition-colors" size={20} />
+    <div className="flex gap-3 w-full">
+      <form onSubmit={handleSearch} className="flex-1 relative">
         <input
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          placeholder="Search for a city..."
-          className="w-full bg-black/20 hover:bg-black/30 focus:bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl py-3.5 pl-12 pr-4 text-white placeholder-white/50 outline-none transition-all shadow-lg"
+          placeholder="Search location..."
+          className="w-full bg-white/10 hover:bg-white/15 focus:bg-white/20 border border-white/10 rounded-2xl py-4 pl-5 pr-12 text-white placeholder-white/50 outline-none transition-all focus:ring-2 focus:ring-white/20 shadow-lg backdrop-blur-md"
         />
+        <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors">
+          <Search size={20} />
+        </button>
       </form>
       <button
         onClick={onLocation}
-        title="Use Current Location"
-        className="bg-black/20 hover:bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-3.5 text-white transition-all shadow-lg flex items-center justify-center active:scale-95"
+        className="bg-white/10 hover:bg-white/20 border border-white/10 rounded-2xl aspect-square w-[58px] flex items-center justify-center text-white transition-all active:scale-95 shrink-0 shadow-lg backdrop-blur-md"
+        title="Current Location"
       >
-        <Navigation size={20} className="text-white/90" />
+        <MapPin size={22} />
       </button>
     </div>
   );

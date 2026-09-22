@@ -65,51 +65,75 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen w-full font-sans text-white bg-slate-950 selection:bg-white/30">
-      {/* Background Video with Overlay */}
+      {/* Background Video with Dark Overlay */}
       <div className="fixed inset-0 w-full h-full -z-20">
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="w-full h-full object-cover scale-105"
+          className="w-full h-full object-cover opacity-60"
         >
           <source src={`${import.meta.env.BASE_URL}background.mp4`} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-[8px]"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90"></div>
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-3xl"></div>
       </div>
 
-      {/* Main Content */}
-      <div className="w-full max-w-[460px] mx-auto p-5 sm:p-8 min-h-screen flex flex-col justify-center animate-slide-down">
+      {/* Main Container - Responsive Bento Grid */}
+      <div className="w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8 min-h-screen flex flex-col justify-center animate-fade-in">
         
+        {/* Empty State */}
         {!currentWeather && !loading && (
-           <div className="text-center mb-10 mt-6">
-              <h1 className="text-5xl font-extralight tracking-tight mb-4 drop-shadow-md">Atmosphere</h1>
-              <p className="text-white/60 font-medium tracking-wide text-sm">Find weather for any location</p>
+           <div className="text-center my-auto">
+              <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 bg-gradient-to-br from-white to-white/50 bg-clip-text text-transparent">Atmosphere</h1>
+              <div className="max-w-xl mx-auto shadow-2xl">
+                <SearchBar onSearch={handleSearch} onLocation={handleLocation} />
+              </div>
            </div>
         )}
 
-        <SearchBar onSearch={handleSearch} onLocation={handleLocation} />
-        
+        {/* Loading State */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center my-auto text-white">
+            <div className="w-12 h-12 border-[4px] border-white/10 border-t-white/90 rounded-full animate-spin mb-6 shadow-lg"></div>
+            <p className="text-white/60 font-medium tracking-widest uppercase text-sm">Gathering Data...</p>
+          </div>
+        )}
+
+        {/* Error State */}
         {error && (
-          <div className="text-red-200 text-center mb-6 text-sm font-medium p-4 bg-red-500/20 border border-red-500/30 rounded-2xl backdrop-blur-md">
+          <div className="max-w-md mx-auto w-full text-red-200 text-center mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl shadow-lg">
             {error}
           </div>
         )}
 
-        {loading && (
-          <div className="flex flex-col items-center justify-center py-20 text-white/70">
-            <div className="w-10 h-10 border-[3px] border-white/20 border-t-white/90 rounded-full animate-spin mb-5"></div>
-            <p className="text-xs font-bold uppercase tracking-widest">Gathering data...</p>
-          </div>
-        )}
-
+        {/* Populated State - Bento Grid */}
         {!loading && currentWeather && (
-          <div className="flex flex-col gap-1 w-full animate-fade-in">
-            <CurrentWeather current={currentWeather} />
-            <WeatherDetails current={currentWeather} />
-            <HourlyForecast forecast={forecast} />
+          <div className="w-full h-full flex flex-col gap-6 lg:gap-8">
+            
+            {/* Top Search Bar */}
+            <div className="w-full max-w-md mx-auto lg:mx-0 lg:w-[450px] shadow-xl">
+              <SearchBar onSearch={handleSearch} onLocation={handleLocation} />
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 w-full">
+              
+              {/* Left Column (Current Weather) */}
+              <div className="lg:col-span-5 flex flex-col h-full">
+                <CurrentWeather current={currentWeather} />
+              </div>
+
+              {/* Right Column (Details & Hourly) */}
+              <div className="lg:col-span-7 flex flex-col gap-6 lg:gap-8">
+                <div className="flex-1 min-h-[250px]">
+                  <WeatherDetails current={currentWeather} />
+                </div>
+                <div>
+                  <HourlyForecast forecast={forecast} />
+                </div>
+              </div>
+
+            </div>
           </div>
         )}
       </div>
