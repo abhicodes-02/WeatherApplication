@@ -74,7 +74,7 @@ export default function App() {
           playsInline
           className="w-full h-full object-cover scale-105"
         >
-          <source src={`${import.meta.env.BASE_URL}Night Sky video background.mp4`} type="video/mp4" />
+          <source src={`${import.meta.env.BASE_URL}background.mp4`} type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-black/50 backdrop-blur-[8px]"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90"></div>

@@ -30,3 +30,4 @@ export default function WeatherDetails({ current }) {
     </div>
   );
 }
+
