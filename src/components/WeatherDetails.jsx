@@ -1,5 +1,14 @@
 import React from 'react';
-import { Droplets, Wind, Thermometer, Eye, Gauge, Cloud } from 'lucide-react';
+import {
+  Droplets,
+  Wind,
+  Thermometer,
+  Eye,
+  Gauge,
+  Sunrise,
+  Sunset,
+  Cloud,
+} from 'lucide-react';
 
 const getWindDirection = (deg) => {
   if (deg === undefined) return '';
@@ -7,27 +16,44 @@ const getWindDirection = (deg) => {
   return directions[Math.round(deg / 45) % 8];
 };
 
-export default function WeatherDetails({ current }) {
+const formatTime = (unixTimestamp) => {
+  if (!unixTimestamp) return '--:--';
+  const date = new Date(unixTimestamp * 1000);
+  return date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+};
+
+export default function WeatherDetails({ current, convertTemp, unit = 'C' }) {
   if (!current) return null;
+
+  const feelsLike = convertTemp(current.main.feels_like);
+  const actualTemp = convertTemp(current.main.temp);
 
   const humidityStatus =
     current.main.humidity > 70
       ? 'High moisture'
-      : current.main.humidity < 30
+      : current.main.humidity < 35
       ? 'Dry air'
-      : 'Comfortable';
+      : 'Optimal range';
 
   const visibilityKm = (current.visibility / 1000).toFixed(1);
   const visibilityStatus =
-    current.visibility >= 10000 ? 'Clear view' : 'Hazy conditions';
+    current.visibility >= 10000 ? 'Clear distance' : 'Reduced visibility';
 
   const windDir = getWindDirection(current.wind.deg);
+  const windSpeedKmh = (current.wind.speed * 3.6).toFixed(1);
+
+  const sunriseTime = formatTime(current.sys?.sunrise);
+  const sunsetTime = formatTime(current.sys?.sunset);
 
   const details = [
     {
       label: 'Feels Like',
-      value: `${Math.round(current.main.feels_like)}°`,
-      status: `Actual: ${Math.round(current.main.temp)}°`,
+      value: `${feelsLike}°${unit}`,
+      status: `Actual: ${actualTemp}°${unit}`,
       icon: Thermometer,
       iconColor: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
     },
@@ -40,7 +66,7 @@ export default function WeatherDetails({ current }) {
     },
     {
       label: 'Wind Speed',
-      value: `${(current.wind.speed * 3.6).toFixed(1)} km/h`,
+      value: `${windSpeedKmh} km/h`,
       status: windDir ? `Direction: ${windDir} (${current.wind.deg}°)` : 'Gentle breeze',
       icon: Wind,
       iconColor: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
@@ -60,38 +86,38 @@ export default function WeatherDetails({ current }) {
       iconColor: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
     },
     {
-      label: 'Cloudiness',
-      value: `${current.clouds.all}%`,
-      status: current.clouds.all > 75 ? 'Heavy overcast' : current.clouds.all > 25 ? 'Partly cloudy' : 'Clear skies',
-      icon: Cloud,
-      iconColor: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20',
+      label: 'Sun & Daylight',
+      value: sunriseTime,
+      status: `Sunset: ${sunsetTime}`,
+      icon: Sunrise,
+      iconColor: 'text-orange-400 bg-orange-500/10 border-orange-500/20',
     },
   ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4.5 h-full">
+    <div className="grid grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 h-full">
       {details.map((detail, idx) => {
         const Icon = detail.icon;
         return (
           <div
             key={idx}
-            className="bg-slate-900/60 hover:bg-slate-800/60 border border-white/10 hover:border-white/20 rounded-3xl p-4 sm:p-5 flex flex-col justify-between transition-all duration-200 backdrop-blur-2xl shadow-xl group"
+            className="bg-slate-900/50 hover:bg-slate-800/60 border border-white/10 hover:border-white/20 rounded-3xl p-4 sm:p-5 flex flex-col justify-between transition-all duration-200 backdrop-blur-2xl shadow-xl group"
           >
             {/* Header: Icon & Label */}
             <div className="flex items-center gap-2.5 mb-3">
               <div
                 className={`p-2 rounded-xl border transition-transform duration-200 group-hover:scale-105 ${detail.iconColor}`}
               >
-                <Icon size={18} />
+                <Icon size={17} />
               </div>
               <h4 className="text-xs font-semibold uppercase tracking-wider text-white/50">
                 {detail.label}
               </h4>
             </div>
 
-            {/* Value & Dynamic Status */}
+            {/* Value & Contextual Tag */}
             <div>
-              <p className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-1">
+              <p className="text-xl sm:text-2xl font-bold tracking-tight text-white mb-0.5">
                 {detail.value}
               </p>
               <p className="text-[11px] font-medium text-white/40 group-hover:text-white/60 transition-colors">
