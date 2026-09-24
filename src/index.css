@@ -4,8 +4,7 @@
 
 @layer base {
   body {
-    @apply text-white overflow-x-hidden overflow-y-auto min-h-screen bg-slate-950;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    @apply text-white overflow-x-hidden overflow-y-auto min-h-screen bg-slate-950 font-sans antialiased;
   }
 }
 
